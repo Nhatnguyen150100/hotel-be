@@ -2,6 +2,7 @@ import { logger } from "sequelize/lib/utils/logger";
 import { BaseErrorResponse, BaseResponseList, BaseSuccessResponse } from "../config/baseReponse";
 import db from "../models";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
+import { Op } from "sequelize";
 
 const facilitiesService = {
   createFacility: (data) => {
@@ -97,7 +98,7 @@ const facilitiesService = {
       }
     });
   },
-  getAllFacilities: () => {
+  getAllFacilities: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { page, limit, nameLike } = data;
