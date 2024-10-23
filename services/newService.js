@@ -152,7 +152,7 @@ const newService = {
       }
     });
   },
-  getAllNew: () => {
+  getAllNew: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { page, limit, nameLike } = data;
