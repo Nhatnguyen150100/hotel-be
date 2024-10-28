@@ -1,5 +1,9 @@
 import { logger } from "sequelize/lib/utils/logger";
-import { BaseErrorResponse, BaseResponseList, BaseSuccessResponse } from "../config/baseReponse";
+import {
+  BaseErrorResponse,
+  BaseResponseList,
+  BaseSuccessResponse,
+} from "../config/baseReponse";
 import db from "../models";
 import { Op } from "sequelize";
 import onRemoveParams from "../utils/remove-params";
@@ -9,12 +13,24 @@ const roomService = {
   createRoom: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const { name, description, price, listImages, listFacilitiesId } = data;
+        const {
+          name,
+          description,
+          bedType,
+          acreage,
+          normalDayPrice,
+          weekendPrice,
+          holidayPrice,
+          listFacilitiesId,
+        } = data;
         const newRoom = await db.Room.create({
           name,
           description,
-          price,
-          listImages,
+          bedType,
+          acreage,
+          normalDayPrice,
+          weekendPrice,
+          holidayPrice,
         });
         const facilities = await db.FacilitiesRoom.bulkCreate(
           listFacilitiesId.map((listFacilitiesId) => ({
@@ -208,8 +224,7 @@ const roomService = {
         );
       }
     });
-  }
+  },
 };
-
 
 export default roomService;
