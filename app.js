@@ -10,15 +10,11 @@ import { join } from "path";
 const dotenv = require("dotenv");
 dotenv.config();
 
-import multer from "multer";
 import connectDB from "./config/connectDB";
 import authRouter from "./routes/authRouter";
-import badmintonCourtRouter from "./routes/badmintonCourtRouter";
-import courtNumberRouter from "./routes/courtNumberRouter";
-import profileRouter from "./routes/profileRouter";
-import scheduleRouter from "./routes/scheduleRouter";
-import timeBookingRouter from "./routes/timeBookingRouter";
-import userBookingRouter from "./routes/userBookingRouter";
+import facilitiesRouter from "./routes/facilitiesRouter";
+import roomRouter from "./routes/roomRouter";
+import bookingRouter from "./routes/bookingRouter";
 const { default: loggerWinston } = require("./config/winston");
 
 connectDB.connect();
@@ -63,12 +59,9 @@ app.use((req, res, next) => {
  * @toto router setup
  */
 app.use("/v1/auth", authRouter);
-app.use("/v1/court", badmintonCourtRouter);
-app.use("/v1/profile", profileRouter);
-app.use("/v1/court-number", courtNumberRouter);
-app.use("/v1/time-booking", timeBookingRouter);
-app.use("/v1/schedule", scheduleRouter);
-app.use("/v1/user-booking", userBookingRouter);
+app.use("/v1/facilities", facilitiesRouter);
+app.use("/v1/room", roomRouter);
+app.use("/v1/booking", bookingRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   loggerWinston.info("Server listening on port: " + (process.env.PORT || 3000));

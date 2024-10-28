@@ -1,8 +1,13 @@
-import { logger } from "sequelize/lib/utils/logger";
-import { BaseErrorResponse, BaseResponseList, BaseSuccessResponse } from "../config/baseReponse";
+import {
+  BaseErrorResponse,
+  BaseResponseList,
+  BaseSuccessResponse,
+} from "../config/baseReponse";
 import db from "../models";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 import { Op } from "sequelize";
+import onRemoveParams from "../utils/remove-params";
+import logger from "../config/winston";
 
 const facilitiesService = {
   createFacility: (data) => {
@@ -45,7 +50,9 @@ const facilitiesService = {
             })
           );
         }
-        const updatedFacility = await facility.update(data);
+        const updatedFacility = await db.Facilities.update(data, {
+          where: { id: facilityId },
+        });
         if (updatedFacility) {
           return resolve(
             new BaseSuccessResponse({
@@ -113,13 +120,6 @@ const facilitiesService = {
         }
         const option = onRemoveParams(
           {
-            include: [
-              {
-                model: db.FacilitiesRoom,
-                through: { model: db.Facilities },
-                as: "facilities",
-              },
-            ],
             where: query,
             limit: Number(limit),
             offset,
@@ -161,7 +161,7 @@ const facilitiesService = {
         );
       }
     });
-  }
+  },
 };
 
 export default facilitiesService;

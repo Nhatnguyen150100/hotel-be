@@ -6,7 +6,7 @@ import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 
 const roomService = {
-  createRoomService: (data) => {
+  createRoom: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { name, description, price, listImages, listFacilitiesId } = data;
@@ -45,7 +45,7 @@ const roomService = {
       }
     });
   },
-  updateRoomService: (roomId, data) => {
+  updateRoom: (roomId, data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { listFacilitiesId } = data;
@@ -83,7 +83,7 @@ const roomService = {
       }
     });
   },
-  deleteRoomService: (roomId) => {
+  deleteRoom: (roomId) => {
     return new Promise(async (resolve, reject) => {
       try {
         const deletedRoom = await db.Room.destroy({
