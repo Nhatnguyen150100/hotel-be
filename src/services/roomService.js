@@ -104,14 +104,14 @@ const roomService = {
         await db.FacilitiesRoom.destroy({
           where: { roomId },
         });
-        
+
         await db.FacilitiesRoom.bulkCreate(
           listFacilitiesId.map((facilityId) => ({
             roomId,
             facilityId,
           }))
         );
-        
+
         const updatedRoom = await db.Room.update(data, {
           where: { id: roomId },
         });
@@ -221,7 +221,16 @@ const roomService = {
               {
                 model: db.FacilitiesRoom,
                 as: "facilitiesRooms",
-                required: false,
+                required: true,
+                nest: true,
+                raw: true,
+                include: [
+                  {
+                    model: db.Facilities,
+                    as: "facility",
+                    required: false,
+                  },
+                ],
               },
             ],
             where: query,
@@ -235,11 +244,7 @@ const roomService = {
           [0]
         );
         const result = await db.Room.findAndCountAll(option);
-        const list = groupAndMerge(
-          result.rows,
-          "id",
-          "facilitiesRooms"
-        );
+        const list = groupAndMerge(result.rows, "id", "facilitiesRooms");
         const totalCount = result.count;
         if (result) {
           return resolve(

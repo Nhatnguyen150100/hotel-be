@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class FacilitiesRoom extends Model {
     /**
@@ -17,22 +15,26 @@ module.exports = (sequelize, DataTypes) => {
       });
       FacilitiesRoom.belongsTo(models.Facilities, {
         foreignKey: { name: "facilityId", allowNull: false },
+        as: "facility",
         targetKey: "id",
       });
     }
   }
-  FacilitiesRoom.init({
-    id: {
-      allowNull: false,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-      type: DataTypes.UUID,
+  FacilitiesRoom.init(
+    {
+      id: {
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        type: DataTypes.UUID,
+      },
+      roomId: DataTypes.UUID,
+      facilityId: DataTypes.UUID,
     },
-    roomId: DataTypes.UUID,
-    facilityId: DataTypes.UUID
-  }, {
-    sequelize,
-    modelName: 'FacilitiesRoom',
-  });
+    {
+      sequelize,
+      modelName: "FacilitiesRoom",
+    }
+  );
   return FacilitiesRoom;
 };
