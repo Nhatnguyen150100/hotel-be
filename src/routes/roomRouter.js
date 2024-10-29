@@ -2,27 +2,36 @@
 import express from "express";
 import tokenMiddleware from "../middleware/tokenMiddleware";
 import roomController from "../controllers/roomController";
-import uploadStorage from "../constants/multer";
+import uploadStorage from "../config/multer";
 const roomRouter = express.Router();
 
 roomRouter.post(
   "/",
   tokenMiddleware.verifyToken,
-  roomController.createRoomMiddleware,
-  uploadStorage.fields(
-    [1, 2, 3, 4, 5, 6].map((item) => ({ name: `img_${item}`, maxCount: 1 }))
-  ),
-  roomController.updateRoom
+  uploadStorage.fields([
+    { name: "img_1", maxCount: 1 },
+    { name: "img_2", maxCount: 1 },
+    { name: "img_3", maxCount: 1 },
+    { name: "img_4", maxCount: 1 },
+    { name: "img_5", maxCount: 1 },
+    { name: "img_6", maxCount: 1 }
+  ]),
+  roomController.createRoom
 );
 
-roomRouter.get("/", tokenMiddleware.verifyToken, roomController.getAllRooms);
+roomRouter.get("/", roomController.getAllRooms);
 
 roomRouter.put(
   "/:id",
   tokenMiddleware.verifyToken,
-  uploadStorage.fields(
-    [1, 2, 3, 4, 5, 6].map((item) => ({ name: `img_${item}`, maxCount: 1 }))
-  ),
+  uploadStorage.fields([
+    { name: "img_1", maxCount: 1 },
+    { name: "img_2", maxCount: 1 },
+    { name: "img_3", maxCount: 1 },
+    { name: "img_4", maxCount: 1 },
+    { name: "img_5", maxCount: 1 },
+    { name: "img_6", maxCount: 1 }
+  ]),
   roomController.updateRoom
 );
 
@@ -32,5 +41,5 @@ roomRouter.delete(
   roomController.deleteRoom
 );
 
-roomRouter.get("/:id", tokenMiddleware.verifyToken, roomController.getRoom);
+roomRouter.get("/:id", roomController.getRoom);
 export default roomRouter;

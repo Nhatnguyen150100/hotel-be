@@ -1,4 +1,3 @@
-import { logger } from "sequelize/lib/utils/logger";
 import {
   BaseErrorResponse,
   BaseResponseList,
@@ -8,6 +7,8 @@ import db from "../models";
 import { Op } from "sequelize";
 import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
+import logger from "../config/winston";
+import groupAndMerge from "../utils/group-item";
 
 const roomService = {
   createRoom: (data) => {
@@ -22,7 +23,28 @@ const roomService = {
           weekendPrice,
           holidayPrice,
           listFacilitiesId,
+          img_1,
+          img_2,
+          img_3,
+          img_4,
+          img_5,
+          img_6,
         } = data;
+
+        const validFacilities = await db.Facilities.findAll({
+          where: {
+            id: listFacilitiesId,
+          },
+        });
+
+        if (validFacilities.length !== listFacilitiesId.length) {
+          return reject(
+            new BaseErrorResponse({
+              message: "Một hoặc nhiều facilityId không hợp lệ.",
+            })
+          );
+        }
+
         const newRoom = await db.Room.create({
           name,
           description,
@@ -31,28 +53,29 @@ const roomService = {
           normalDayPrice,
           weekendPrice,
           holidayPrice,
+          img_1,
+          img_2,
+          img_3,
+          img_4,
+          img_5,
+          img_6,
         });
-        const facilities = await db.FacilitiesRoom.bulkCreate(
-          listFacilitiesId.map((listFacilitiesId) => ({
-            roomId: newRoom.id,
-            facilitiesId: listFacilitiesId,
+
+        await db.FacilitiesRoom.bulkCreate(
+          listFacilitiesId.map((facilityId) => ({
+            roomId: newRoom.dataValues.id,
+            facilityId,
           }))
         );
-        if (newRoom && facilities) {
-          return resolve(
-            new BaseSuccessResponse({
-              message: "Tạo phòng thành công",
-            })
-          );
-        }
-        reject(
-          new BaseErrorResponse({
-            message: "Tạo phòng thất bại",
+
+        return resolve(
+          new BaseSuccessResponse({
+            message: "Tạo phòng thành công",
           })
         );
       } catch (error) {
         logger.error(error.message);
-        reject(
+        return reject(
           new BaseErrorResponse({
             message: "Tạo phòng thất bại",
             error: error.message,
@@ -65,15 +88,30 @@ const roomService = {
     return new Promise(async (resolve, reject) => {
       try {
         const { listFacilitiesId } = data;
+        const validFacilities = await db.Facilities.findAll({
+          where: {
+            id: listFacilitiesId,
+          },
+        });
+
+        if (validFacilities.length !== listFacilitiesId.length) {
+          return reject(
+            new BaseErrorResponse({
+              message: "Một hoặc nhiều facilityId không hợp lệ.",
+            })
+          );
+        }
         await db.FacilitiesRoom.destroy({
           where: { roomId },
         });
+        
         await db.FacilitiesRoom.bulkCreate(
-          listFacilitiesId.map((listFacilitiesId) => ({
-            roomId: roomId,
-            facilitiesId: listFacilitiesId,
+          listFacilitiesId.map((facilityId) => ({
+            roomId,
+            facilityId,
           }))
         );
+        
         const updatedRoom = await db.Room.update(data, {
           where: { id: roomId },
         });
@@ -130,20 +168,22 @@ const roomService = {
   getRoom: (roomId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const room = await db.Room.findOne({
+        const room = await db.Room.findAll({
           where: { id: roomId },
           include: [
             {
               model: db.FacilitiesRoom,
-              through: { model: db.Facilities },
-              as: "facilities",
+              required: false,
+              as: "facilitiesRooms",
             },
           ],
+          raw: false,
+          nest: true,
         });
         if (room) {
           return resolve(
             new BaseSuccessResponse({
-              data: room,
+              data: room[0],
             })
           );
         }
@@ -162,7 +202,7 @@ const roomService = {
       }
     });
   },
-  getAllRooms: () => {
+  getAllRooms: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { page, limit, nameLike } = data;
@@ -180,8 +220,8 @@ const roomService = {
             include: [
               {
                 model: db.FacilitiesRoom,
-                through: { model: db.Facilities },
-                as: "facilities",
+                as: "facilitiesRooms",
+                required: false,
               },
             ],
             where: query,
@@ -195,7 +235,11 @@ const roomService = {
           [0]
         );
         const result = await db.Room.findAndCountAll(option);
-        const list = result.rows;
+        const list = groupAndMerge(
+          result.rows,
+          "id",
+          "facilitiesRooms"
+        );
         const totalCount = result.count;
         if (result) {
           return resolve(
