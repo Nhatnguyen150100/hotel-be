@@ -7,7 +7,7 @@ const bookingController = {
       res.status(rs.status).json({ message: rs.message, data: rs.data });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(error.status).json({ message: error.message });
     }
   },
   getAllBooking: async (req, res) => {
@@ -16,7 +16,7 @@ const bookingController = {
       res.status(rs.status).json({ message: rs.message, data: rs.data });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(error.status).json({ message: error.message });
     }
   },
 };

@@ -36,7 +36,6 @@ const roomService = {
             id: listFacilitiesId,
           },
         });
-
         if (validFacilities.length !== listFacilitiesId.length) {
           return reject(
             new BaseErrorResponse({
@@ -44,7 +43,6 @@ const roomService = {
             })
           );
         }
-
         const newRoom = await db.Room.create({
           name,
           description,
@@ -175,6 +173,16 @@ const roomService = {
               model: db.FacilitiesRoom,
               required: false,
               as: "facilitiesRooms",
+              required: true,
+              nest: true,
+                raw: true,
+                include: [
+                  {
+                    model: db.Facilities,
+                    as: "facility",
+                    required: false,
+                  },
+                ],
             },
           ],
           raw: false,

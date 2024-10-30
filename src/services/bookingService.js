@@ -23,6 +23,7 @@ const bookingService = {
           endDate,
           adults,
           children,
+          note,
         } = data;
         const checkIsBooking = await db.Booking.findOne({
           where: {
@@ -34,7 +35,7 @@ const bookingService = {
         if (checkIsBooking) {
           return reject(
             new BaseErrorResponse({
-              message: "Booking already exists",
+              message: "Phòng đã được đặt",
             })
           );
         }
@@ -47,6 +48,7 @@ const bookingService = {
           endDate,
           adults,
           children,
+          note,
         });
         return resolve(
           new BaseSuccessResponse({

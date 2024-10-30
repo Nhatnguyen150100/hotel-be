@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
     adults: DataTypes.INTEGER,
-    children: DataTypes.INTEGER
+    children: DataTypes.INTEGER,
+    note: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Booking',
