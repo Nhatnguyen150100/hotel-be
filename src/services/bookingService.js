@@ -77,6 +77,13 @@ const bookingService = {
         }
         const option = onRemoveParams(
           {
+            include: [
+              {
+                model: db.Room,
+                as: "room",
+                required: true,
+              },
+            ],
             where: query,
             limit: Number(limit),
             offset,
