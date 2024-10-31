@@ -15,6 +15,7 @@ import authRouter from "./routes/authRouter";
 import facilitiesRouter from "./routes/facilitiesRouter";
 import roomRouter from "./routes/roomRouter";
 import bookingRouter from "./routes/bookingRouter";
+import newRouter from "./routes/newRouter";
 const { default: loggerWinston } = require("./config/winston");
 
 connectDB.connect();
@@ -62,6 +63,7 @@ app.use("/v1/auth", authRouter);
 app.use("/v1/facilities", facilitiesRouter);
 app.use("/v1/room", roomRouter);
 app.use("/v1/booking", bookingRouter);
+app.use("/v1/new", newRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   loggerWinston.info("Server listening on port: " + (process.env.PORT || 3000));

@@ -1,33 +1,27 @@
-import { logger } from "sequelize/lib/utils/logger";
 import { BaseErrorResponse, BaseResponseList, BaseSuccessResponse } from "../config/baseReponse";
 import db from "../models";
 import { Op } from "sequelize";
 import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
+import logger from "../config/winston";
 
 const newService = {
-  createNewService: (data) => {
+  createNew: (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { thumbnailImg, name, description, content } = data;
         if (!thumbnailImg || !name || !description || !content) {
           return reject(
-            new BaseErrorResponse({ message: "Thông tin bắt buộc" })
+            new BaseErrorResponse({ message: "Thiếu thông tin bắt buộc" })
           );
         }
         const newCreated = await db.New.create({
           thumbnailImg,
           name,
           description,
+          content
         });
         if (newCreated) {
-          await db.ContentNew.bulkCreate(
-            content.map((item) => ({
-              newId: newCreated.id,
-              content: item.content,
-              order: item.order,
-            }))
-          );
           return resolve(
             new BaseSuccessResponse({
               data: newCreated,
@@ -35,6 +29,11 @@ const newService = {
             })
           );
         }
+        return reject(
+          new BaseErrorResponse({
+            message: "Tạo tin mới thất bại",
+          })
+        );
       } catch (error) {
         logger.error(error.message);
         reject(new BaseErrorResponse({ message: error.message }));
@@ -45,27 +44,16 @@ const newService = {
     return new Promise(async (resolve, reject) => {
       try {
         const { thumbnailImg, name, description, content } = data;
-        if (!thumbnailImg ||!name ||!description) {
+        if (!(thumbnailImg && name && description && content)) {
           return reject(
             new BaseErrorResponse({ message: "Thông tin bắt buộc" })
           );
         }
-        await db.ContentNew.destroy({
-          where: {
-            newId
-          }
-        })
-        await db.ContentNew.bulkCreate(
-          content.map((item) => ({
-            newId: newCreated.id,
-            content: item.content,
-            order: item.order,
-          }))
-        );
         const updated = await db.New.update({
           thumbnailImg,
           name,
           description,
+          content
         }, {
           where: {
             id: newId,
@@ -122,14 +110,6 @@ const newService = {
           where: {
             id: newId,
           },
-          include: [
-            {
-              model: db.ContentNew,
-              as: "contentNew",
-              required: false,
-              attributes: ["id", "content", "order"],
-            }
-          ],
           raw: true,
           nest: true,
         });
@@ -167,14 +147,6 @@ const newService = {
         }
         const option = onRemoveParams(
           {
-            include: [
-              {
-                model: db.ContentNew,
-                as: "contentNew",
-                required: false,
-                attributes: ["id", "content", "order"],
-              }
-            ],
             where: query,
             limit: Number(limit),
             offset,

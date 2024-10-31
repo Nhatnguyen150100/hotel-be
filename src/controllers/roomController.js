@@ -22,6 +22,15 @@ const roomController = {
       res.status(error.status).json({ message: error.message });
     }
   },
+  getAllRoomsFromUser: async (req, res) => {
+    try {
+      const data = req.query;
+      const rs = await roomService.getAllRoomsFromUser(data);
+      res.status(rs.status).json(rs);
+    } catch (error) {
+      res.status(error.status).json({ message: error.message });
+    }
+  },
   updateRoom: async (req, res) => {
     try {
       const { id } = req.params;

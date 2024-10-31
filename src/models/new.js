@@ -11,19 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      New.hasMany(models.ContentNew, {
-        foreignKey: "newId",
-        as: "contentNews",
-        sourceKey: "id",
-        onDelete: "CASCADE",
-        hooks: true
-      });
     }
   }
   New.init({
+    id: {
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      type: DataTypes.UUID,
+    },
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     thumbnailImg: DataTypes.STRING,
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'New',

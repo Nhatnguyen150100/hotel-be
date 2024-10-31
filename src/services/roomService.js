@@ -4,11 +4,12 @@ import {
   BaseSuccessResponse,
 } from "../config/baseReponse";
 import db from "../models";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 import logger from "../config/winston";
 import groupAndMerge from "../utils/group-item";
+import dayjs from "dayjs";
 
 const roomService = {
   createRoom: (data) => {
@@ -58,7 +59,6 @@ const roomService = {
           img_5,
           img_6,
         });
-
         await db.FacilitiesRoom.bulkCreate(
           listFacilitiesId.map((facilityId) => ({
             roomId: newRoom.dataValues.id,
@@ -175,14 +175,14 @@ const roomService = {
               as: "facilitiesRooms",
               required: true,
               nest: true,
-                raw: true,
-                include: [
-                  {
-                    model: db.Facilities,
-                    as: "facility",
-                    required: false,
-                  },
-                ],
+              raw: true,
+              include: [
+                {
+                  model: db.Facilities,
+                  as: "facility",
+                  required: false,
+                },
+              ],
             },
           ],
           raw: false,
@@ -254,6 +254,81 @@ const roomService = {
         const result = await db.Room.findAndCountAll(option);
         const list = groupAndMerge(result.rows, "id", "facilitiesRooms");
         const totalCount = result.count;
+        if (result) {
+          return resolve(
+            new BaseResponseList({
+              list,
+              status: DEFINE_STATUS_RESPONSE.SUCCESS,
+              totalCount,
+              message: "List retrieved successfully",
+            })
+          );
+        }
+        return reject(
+          new BaseResponseList({
+            list: null,
+            status: DEFINE_STATUS_RESPONSE.ERROR,
+            totalCount,
+            message: "List retrieved successfully",
+          })
+        );
+      } catch (error) {
+        logger.error(error.message);
+        reject(
+          new BaseErrorResponse({
+            message: error.message,
+          })
+        );
+      }
+    });
+  },
+  getAllRoomsFromUser: (data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { page, limit, startDate, endDate } = data;
+        let offset = page && limit ? (page - 1) * limit : undefined;
+        let query = {};
+        if (startDate && endDate) {
+          query = {
+            [Op.and]: [
+              { endDate: { [Op.gte]: new Date(endDate) } },
+              { startDate: { [Op.lte]: new Date(startDate) } },
+            ],
+          };
+        }
+        const bookings = await db.Booking.findAll({
+          where: query,
+        });
+        const option = onRemoveParams(
+          {
+            include: [
+              {
+                model: db.FacilitiesRoom,
+                as: "facilitiesRooms",
+                required: true,
+                nest: true,
+                raw: true,
+                include: [
+                  {
+                    model: db.Facilities,
+                    as: "facility",
+                    required: false,
+                  },
+                ],
+              },
+            ],
+            limit: Number(limit),
+            offset,
+            order: [["createdAt", "DESC"]],
+            raw: true,
+            nest: true,
+            distinct: true,
+          },
+          [0]
+        );
+        const result = await db.Room.findAndCountAll(option);
+        const list = groupAndMerge(result.rows, "id", "facilitiesRooms").filter((item) => !bookings.some((booing) => booing.roomId === item.id));
+        const totalCount = result.count - bookings.length;
         if (result) {
           return resolve(
             new BaseResponseList({

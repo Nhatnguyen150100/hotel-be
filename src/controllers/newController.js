@@ -1,9 +1,9 @@
 import newService from "../services/newService";
 
 const newController = {
-  createNewService: async (req, res) => {
+  createNew: async (req, res) => {
     try {
-      const rs = await newService.createNewService(req.body);
+      const rs = await newService.createNew(req.body);
       res.status(rs.status).json(rs);
     } catch (error) {
       res.status(error.status).json({ message: error.message });

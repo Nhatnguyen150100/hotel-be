@@ -4,13 +4,7 @@ import fs from "fs";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(
-      __dirname,
-      "..",
-      "..",
-      "public",
-      "img-room",
-    );
+    const uploadDir = path.join(__dirname, "..", "..", "public", "img-room");
     fs.mkdir(uploadDir, { recursive: true }, (err) => {
       if (err) {
         return cb(err);
@@ -22,9 +16,7 @@ const storage = multer.diskStorage({
     const timestamp = Date.now();
     const extension = path.extname(file.originalname);
     const filePath = `${timestamp}_${file.fieldname}${extension}`;
-    const url = `${
-      process.env.BASE_URL_SERVER
-    }/img-room/${filePath}`;
+    const url = `${process.env.BASE_URL_SERVER}/img-room/${filePath}`;
     req.body = {
       ...req.body,
       [`${file.fieldname}`]: url,

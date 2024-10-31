@@ -2,7 +2,7 @@
 import express from "express";
 import tokenMiddleware from "../middleware/tokenMiddleware";
 import roomController from "../controllers/roomController";
-import uploadStorage from "../config/multer";
+import uploadStorage from '../config/multer'
 const roomRouter = express.Router();
 
 roomRouter.post(
@@ -20,6 +20,7 @@ roomRouter.post(
 );
 
 roomRouter.get("/", roomController.getAllRooms);
+roomRouter.get("/from-user", roomController.getAllRoomsFromUser);
 
 roomRouter.put(
   "/:id",
