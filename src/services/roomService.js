@@ -296,9 +296,10 @@ const roomService = {
             ],
           };
         }
-        const bookings = await db.Booking.findAll({
+        const bookings = Object.keys(query).length > 0 ? await db.Booking.findAll({
           where: query,
-        });
+        }) : [];
+        console.log("🚀 ~ returnnewPromise ~ bookings:", bookings)
         const option = onRemoveParams(
           {
             include: [
