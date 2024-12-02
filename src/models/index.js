@@ -9,22 +9,36 @@ const basename = path.basename(__filename);
 const db = {};
 
 let sequelize;
+// const customConfig = {
+//   username: process.env.DB_USERNAME,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_DATABASE,
+//   host: process.env.DB_HOST,
+//   port: process.env.DB_PORT,
+//   dialect: process.env.DB_DIALECT,
+//   dialectOptions:
+//     process.env.DB_SSL === "true"
+//       ? {
+//           ssl: {
+//             require: true,
+//             rejectUnauthorized: false,
+//           },
+//         }
+//       : {},
+//   logging: false,
+//   query: {
+//     raw: true,
+//   },
+//   timezone: "+07:00",
+// };
 const customConfig = {
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  dialect: process.env.DB_DIALECT,
-  dialectOptions:
-    process.env.DB_SSL === "true"
-      ? {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
-        }
-      : {},
+  username: "root",
+  password: "password",
+  database: "db_hotel",
+  host: "localhost",
+  port: 3306,
+  dialect: "mysql",
+  dialectOptions: {},
   logging: false,
   query: {
     raw: true,

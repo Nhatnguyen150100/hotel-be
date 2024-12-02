@@ -4,26 +4,40 @@ require("dotenv").config();
 
 const { Sequelize } = require("sequelize");
 
+// const sequelize = new Sequelize(
+//   process.env.DB_DATABASE,
+//   process.env.DB_USERNAME,
+//   process.env.DB_PASSWORD,
+//   {
+//     host: process.env.DB_HOST,
+//     port: process.env.DB_PORT,
+//     dialect: process.env.DB_DIALECT,
+//     logging: (message) => {
+//       logger.info(message);
+//     },
+//     dialectOptions:
+//       process.env.DB_SSL === "true"
+//         ? {
+//             ssl: {
+//               require: true,
+//               rejectUnauthorized: false,
+//             },
+//           }
+//         : {},
+//   }
+// );
 const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
+  "db_hotel",
+  "root",
+  "password",
   {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    host: "localhost",
+    port: 3306,
+    dialect: "mysql",
     logging: (message) => {
       logger.info(message);
     },
-    dialectOptions:
-      process.env.DB_SSL === "true"
-        ? {
-            ssl: {
-              require: true,
-              rejectUnauthorized: false,
-            },
-          }
-        : {},
+    dialectOptions: {},
   }
 );
 
