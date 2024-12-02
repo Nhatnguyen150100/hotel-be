@@ -1,12 +1,18 @@
-version: '3.4'
+version: '3.8'
 
 services:
-  backend:
-    image: backend
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  db:
+    container_name: mysql_db
+    image: mysql:8.0
+    restart: always
     environment:
-      NODE_ENV: production
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'db_hotel'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
     ports:
-      - 8080:8080
+      - '3306:3306'
+    volumes:
+      - './docker/db/data:/var/lib/mysql'
+      - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
+      - './docker/db/sql:/docker-entrypoint-initdb.d'

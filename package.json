@@ -10,7 +10,9 @@
     "copy-env": "cp .env build/.env",
     "build": "npm run clean && npm run build-babel && copy-env",
     "production": "node ./build/src/app.js",
-    "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/app.js"
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/app.js",
+    "migrate": "cd src && sequelize-cli db:migrate",
+    "seed": "cd src && sequelize-cli db:seed:all"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.25.7",
