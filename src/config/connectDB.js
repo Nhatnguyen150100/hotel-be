@@ -29,7 +29,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize(
   "db_hotel",
   "root",
-  "password",
+  "",
   {
     host: "localhost",
     port: 3306,

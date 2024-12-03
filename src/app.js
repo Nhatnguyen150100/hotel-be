@@ -23,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.BASE_URL_CLIENT,
+    origin: "http://khachsanphuonghoang2samson.vn",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     preflightContinue: false,

@@ -33,7 +33,7 @@ let sequelize;
 // };
 const customConfig = {
   username: "root",
-  password: "password",
+  password: "",
   database: "db_hotel",
   host: "localhost",
   port: 3306,
@@ -47,9 +47,9 @@ const customConfig = {
 };
 
 sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
+  "db_hotel",
+  "root",
+  "",
   customConfig
 );
 
