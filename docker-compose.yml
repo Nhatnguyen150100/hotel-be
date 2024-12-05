@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  db:
+  mysql:
     container_name: mysql_db
     image: mysql:8.0
     restart: always
@@ -13,6 +13,6 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - './docker/db/data:/var/lib/mysql'
-      - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
-      - './docker/db/sql:/docker-entrypoint-initdb.d'
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
