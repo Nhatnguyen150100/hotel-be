@@ -13,6 +13,8 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - hotel-be_mysql_data:/var/lib/mysql
+
 volumes:
-  mysql_data:
+  hotel-be_mysql_data:
+    external: true
