@@ -23,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     thumbnailImg: DataTypes.STRING,
-    content: DataTypes.TEXT
+    content: {
+      type: DataTypes.TEXT('long'),
+      allowNull: false
+    }
+
   }, {
     sequelize,
     modelName: 'New',
