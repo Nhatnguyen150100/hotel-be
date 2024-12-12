@@ -4,7 +4,6 @@ services:
   mysql:
     container_name: mysql_db
     image: mysql:8.0
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_DATABASE: 'db_hotel'
@@ -13,8 +12,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - hotel-be_mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  hotel-be_mysql_data:
-    external: true
+  mysql_data:
