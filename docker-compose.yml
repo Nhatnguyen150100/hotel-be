@@ -4,6 +4,7 @@ services:
   mysql:
     container_name: mysql_db
     image: mysql:8.0
+    restart: unless-stopped # Tự động khởi động lại container nếu bị dừng
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_DATABASE: 'db_hotel'
@@ -16,3 +17,4 @@ services:
 
 volumes:
   mysql_data:
+    driver: local # Đảm bảo sử dụng driver mặc định để lưu trữ dữ liệu
