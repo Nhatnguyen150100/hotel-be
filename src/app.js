@@ -16,6 +16,7 @@ import facilitiesRouter from "./routes/facilitiesRouter";
 import roomRouter from "./routes/roomRouter";
 import bookingRouter from "./routes/bookingRouter";
 import newRouter from "./routes/newRouter";
+import imagesRouter from "./routes/images";
 const { default: loggerWinston } = require("./config/winston");
 
 connectDB.connect();
@@ -23,7 +24,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://khachsanphuonghoang2samson.vn",
+    origin: "*",
+    // origin: "https://khachsanphuonghoang2samson.vn",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
     preflightContinue: false,
@@ -64,6 +66,7 @@ app.use("/v1/facilities", facilitiesRouter);
 app.use("/v1/room", roomRouter);
 app.use("/v1/booking", bookingRouter);
 app.use("/v1/new", newRouter);
+app.use("/v1/images", imagesRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   loggerWinston.info("Server listening on port: " + (process.env.PORT || 3000));

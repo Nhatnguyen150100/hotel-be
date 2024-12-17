@@ -16,7 +16,8 @@ const storage = multer.diskStorage({
     const timestamp = Date.now();
     const extension = path.extname(file.originalname);
     const filePath = `${timestamp}_${file.fieldname}${extension}`;
-    const url = `http://api.khachsanphuonghoang2samson.vn/img-room/${filePath}`;
+    // const url = `http://api.khachsanphuonghoang2samson.vn/img-room/${filePath}`;
+    const url = `${process.env.BASE_URL_SERVER}/img-room/${filePath}`;
     req.body = {
       ...req.body,
       [`${file.fieldname}`]: url,

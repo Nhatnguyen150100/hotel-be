@@ -9,7 +9,6 @@ import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 import logger from "../config/winston";
 import groupAndMerge from "../utils/group-item";
-import dayjs from "dayjs";
 
 const roomService = {
   createRoom: (data) => {
@@ -83,6 +82,7 @@ const roomService = {
     });
   },
   updateRoom: (roomId, data) => {
+    console.log("🚀 ~ data:", data)
     return new Promise(async (resolve, reject) => {
       try {
         const { listFacilitiesId } = data;

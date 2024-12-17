@@ -9,36 +9,22 @@ const basename = path.basename(__filename);
 const db = {};
 
 let sequelize;
-// const customConfig = {
-//   username: process.env.DB_USERNAME,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_DATABASE,
-//   host: process.env.DB_HOST,
-//   port: process.env.DB_PORT,
-//   dialect: process.env.DB_DIALECT,
-//   dialectOptions:
-//     process.env.DB_SSL === "true"
-//       ? {
-//           ssl: {
-//             require: true,
-//             rejectUnauthorized: false,
-//           },
-//         }
-//       : {},
-//   logging: false,
-//   query: {
-//     raw: true,
-//   },
-//   timezone: "+07:00",
-// };
 const customConfig = {
-  username: "root",
-  password: "password",
-  database: "db_hotel",
-  host: "localhost",
-  port: 3306,
-  dialect: "mysql",
-  dialectOptions: {},
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  dialect: process.env.DB_DIALECT,
+  dialectOptions:
+    process.env.DB_SSL === "true"
+      ? {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
+      : {},
   logging: false,
   query: {
     raw: true,
@@ -46,12 +32,35 @@ const customConfig = {
   timezone: "+07:00",
 };
 
+
 sequelize = new Sequelize(
-  "db_hotel",
-  "root",
-  "password",
+  process.env.DB_DATABASE,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
   customConfig
 );
+
+// const customConfig = {
+//   username: "root",
+//   password: "password",
+//   database: "db_hotel",
+//   host: "localhost",
+//   port: 3306,
+//   dialect: "mysql",
+//   dialectOptions: {},
+//   logging: false,
+//   query: {
+//     raw: true,
+//   },
+//   timezone: "+07:00",
+// };
+
+// sequelize = new Sequelize(
+//   "db_hotel",
+//   "root",
+//   "password",
+//   customConfig
+// );
 
 fs.readdirSync(__dirname)
   .filter((file) => {
