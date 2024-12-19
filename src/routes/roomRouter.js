@@ -1,8 +1,8 @@
-"use-strict";
+"use strict";
 import express from "express";
 import tokenMiddleware from "../middleware/tokenMiddleware";
 import roomController from "../controllers/roomController";
-import uploadStorage from '../config/multer'
+import uploadStorage from "../config/multer";
 const roomRouter = express.Router();
 
 roomRouter.post(
@@ -14,7 +14,7 @@ roomRouter.post(
     { name: "img_3", maxCount: 1 },
     { name: "img_4", maxCount: 1 },
     { name: "img_5", maxCount: 1 },
-    { name: "img_6", maxCount: 1 }
+    { name: "img_6", maxCount: 1 },
   ]),
   roomController.createRoom
 );
@@ -31,7 +31,7 @@ roomRouter.put(
     { name: "img_3", maxCount: 1 },
     { name: "img_4", maxCount: 1 },
     { name: "img_5", maxCount: 1 },
-    { name: "img_6", maxCount: 1 }
+    { name: "img_6", maxCount: 1 },
   ]),
   roomController.updateRoom
 );
