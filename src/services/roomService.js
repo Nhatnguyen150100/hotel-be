@@ -210,6 +210,7 @@ const roomService = {
     });
   },
   getAllRooms: (data) => {
+    console.log("🚀 ~ data:", data)
     return new Promise(async (resolve, reject) => {
       try {
         const { page, limit, nameLike } = data;
@@ -290,15 +291,14 @@ const roomService = {
         if (startDate && endDate) {
           query = {
             [Op.and]: [
-              { endDate: { [Op.gte]: new Date(endDate) } },
-              { startDate: { [Op.lte]: new Date(startDate) } },
+              { endDate: { [Op.gt]: new Date(startDate) } },
+              { startDate: { [Op.lt]: new Date(endDate) } },
             ],
           };
         }
-        const bookings = Object.keys(query).length > 0 ? await db.Booking.findAll({
+        const bookings = startDate && endDate ? await db.Booking.findAll({
           where: query,
         }) : [];
-        console.log("🚀 ~ returnnewPromise ~ bookings:", bookings)
         const option = onRemoveParams(
           {
             include: [
