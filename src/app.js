@@ -18,6 +18,7 @@ import bookingRouter from "./routes/bookingRouter";
 import newRouter from "./routes/newRouter";
 import imagesRouter from "./routes/images";
 import bannerRouter from "./routes/bannerRouter";
+import destinationRouter from "./routes/destinationRouter";
 const { default: loggerWinston } = require("./config/winston");
 
 connectDB.connect();
@@ -67,6 +68,7 @@ app.use("/v1/facilities", facilitiesRouter);
 app.use("/v1/room", roomRouter);
 app.use("/v1/booking", bookingRouter);
 app.use("/v1/new", newRouter);
+app.use("/v1/destination", destinationRouter);
 app.use("/v1/images", imagesRouter);
 app.use("/v1/banner", bannerRouter);
 
