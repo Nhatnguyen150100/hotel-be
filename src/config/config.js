@@ -4,7 +4,7 @@ dotenv.config();
 
 const DEFAULT_CONFIG_DB = {
   DB_DATABASE: "db_hotel",
-  DB_USERNAME: "root",
+  DB_USERNAME: "user",
   DB_PASSWORD: "password",
   DB_HOST: "localhost",
   DB_PORT: "3306",

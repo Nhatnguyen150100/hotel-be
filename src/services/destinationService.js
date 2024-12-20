@@ -15,7 +15,7 @@ const destinationService = {
             new BaseErrorResponse({ message: "Thiếu thông tin bắt buộc" })
           );
         }
-        const newCreated = await db.New.create({
+        const newCreated = await db.Destination.create({
           thumbnailImg,
           name,
           description,
@@ -49,7 +49,7 @@ const destinationService = {
             new BaseErrorResponse({ message: "Thông tin bắt buộc" })
           );
         }
-        const updated = await db.New.update({
+        const updated = await db.Destination.update({
           thumbnailImg,
           name,
           description,
@@ -80,7 +80,7 @@ const destinationService = {
   deleteNew: (newId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const deleted = await db.New.destroy({
+        const deleted = await db.Destination.destroy({
           where: {
             id: newId,
           },
@@ -106,7 +106,7 @@ const destinationService = {
   getNew: (newId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const newDetail = await db.New.findOne({
+        const newDetail = await db.Destination.findOne({
           where: {
             id: newId,
           },
@@ -157,7 +157,7 @@ const destinationService = {
           },
           [0]
         );
-        const result = await db.New.findAndCountAll(option);
+        const result = await db.Destination.findAndCountAll(option);
         const list = result.rows;
         const totalCount = result.count;
         if (result) {

@@ -1,7 +1,7 @@
 "use strict";
 import express from "express";
 import tokenMiddleware from "../middleware/tokenMiddleware";
-import newController from "../controllers/newController";
+import destinationController from "../controllers/destinationController";
 
 import multer from "multer";
 import path, { join } from "path";
@@ -41,20 +41,20 @@ destinationRouter.post(
   "/",
   tokenMiddleware.verifyToken,
   upload.single("thumbnailImg"),
-  newController.createNew
+  destinationController.createNew
 );
 
-destinationRouter.get("/", newController.getAllNews);
+destinationRouter.get("/", destinationController.getAllNews);
 
 destinationRouter.put(
   "/:id",
   tokenMiddleware.verifyToken,
   upload.single("thumbnailImg"),
-  newController.updateNew
+  destinationController.updateNew
 );
 
-destinationRouter.delete("/:id", tokenMiddleware.verifyToken, newController.deleteNew);
+destinationRouter.delete("/:id", tokenMiddleware.verifyToken, destinationController.deleteNew);
 
-destinationRouter.get("/:id", newController.getNew);
+destinationRouter.get("/:id", destinationController.getNew);
 
 export default destinationRouter;
