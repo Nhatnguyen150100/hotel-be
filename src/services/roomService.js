@@ -82,7 +82,6 @@ const roomService = {
     });
   },
   updateRoom: (roomId, data) => {
-    console.log("🚀 ~ data:", data)
     return new Promise(async (resolve, reject) => {
       try {
         const { listFacilitiesId } = data;
