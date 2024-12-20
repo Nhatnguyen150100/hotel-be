@@ -8,9 +8,10 @@ import {
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 import logger from "../config/winston";
 import db from "../models";
+import onRemoveParams from "../utils/remove-params";
 
 const bannerService = {
-  createImage: (url) => {
+  createImage: ({url}) => {
     return new Promise(async (resolve, reject) => {
       try {
         const data = await db.BannerImage.create({
