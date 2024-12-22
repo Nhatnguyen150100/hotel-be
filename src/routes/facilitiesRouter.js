@@ -22,9 +22,5 @@ facilitiesRouter.delete(
   facilitiesController.deleteFacility
 );
 
-facilitiesRouter.get(
-  "/",
-  tokenMiddleware.verifyToken,
-  facilitiesController.getAllFacilities
-);
+facilitiesRouter.get("/", facilitiesController.getAllFacilities);
 export default facilitiesRouter;
