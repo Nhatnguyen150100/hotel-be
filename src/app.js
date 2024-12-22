@@ -5,6 +5,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const bodyParser = require("body-parser");
 import { join } from "path";
 
 const dotenv = require("dotenv");
@@ -59,6 +60,15 @@ app.use((req, res, next) => {
   res.set("Cache-Control", "no-store");
   next();
 });
+
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
 
 /**
  * @toto router setup

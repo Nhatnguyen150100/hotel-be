@@ -3,6 +3,5 @@ src/log/
 bin
 docker
 build
-public
 .env
 *.log
