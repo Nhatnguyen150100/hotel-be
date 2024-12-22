@@ -23,8 +23,8 @@ const storage = multer.diskStorage({
     const timestamp = Date.now();
     const extension = path.extname(file.originalname);
     const filePath = `${timestamp}_${extension}`;
-    // const url = `http://api.khachsanphuonghoang2samson.vn/img-news/${filePath}`;
-    const url = `${process.env.BASE_URL_SERVER}/destination/${filePath}`;
+    const url = `http://api.khachsanphuonghoang2samson.vn/destination/${filePath}`;
+    // const url = `${process.env.BASE_URL_SERVER}/destination/${filePath}`;
     req.body = {
       ...req.body,
       thumbnailImg: url,
@@ -53,7 +53,11 @@ destinationRouter.put(
   destinationController.updateNew
 );
 
-destinationRouter.delete("/:id", tokenMiddleware.verifyToken, destinationController.deleteNew);
+destinationRouter.delete(
+  "/:id",
+  tokenMiddleware.verifyToken,
+  destinationController.deleteNew
+);
 
 destinationRouter.get("/:id", destinationController.getNew);
 

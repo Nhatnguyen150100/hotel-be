@@ -32,7 +32,6 @@ let sequelize;
 //   timezone: "+07:00",
 // };
 
-
 // sequelize = new Sequelize(
 //   process.env.DB_DATABASE,
 //   process.env.DB_USERNAME,
@@ -55,12 +54,7 @@ const customConfig = {
   timezone: "+07:00",
 };
 
-sequelize = new Sequelize(
-  "db_hotel",
-  "user",
-  "password",
-  customConfig
-);
+sequelize = new Sequelize("db_hotel", "user", "password", customConfig);
 
 fs.readdirSync(__dirname)
   .filter((file) => {

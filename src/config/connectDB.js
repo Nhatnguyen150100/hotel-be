@@ -27,20 +27,15 @@ const { Sequelize } = require("sequelize");
 //   }
 // );
 
-const sequelize = new Sequelize(
-  "db_hotel",
-  "user",
-  "password",
-  {
-    host: "localhost",
-    port: 3306,
-    dialect: "mysql",
-    logging: (message) => {
-      logger.info(message);
-    },
-    dialectOptions: {},
-  }
-);
+const sequelize = new Sequelize("db_hotel", "user", "password", {
+  host: "localhost",
+  port: 3306,
+  dialect: "mysql",
+  logging: (message) => {
+    logger.info(message);
+  },
+  dialectOptions: {},
+});
 
 const connectDB = {
   connect: async () => {
