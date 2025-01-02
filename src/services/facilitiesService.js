@@ -88,7 +88,9 @@ const facilitiesService = {
             })
           );
         }
-        await facility.destroy();
+        await db.Facilities.destroy({
+          where: { id: facilityId },
+        });
         return resolve(
           new BaseSuccessResponse({
             message: "Xóa tiện ích thành công",
