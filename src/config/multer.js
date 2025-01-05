@@ -1,10 +1,15 @@
 import multer from "multer";
 import path, { join } from "path";
 import fs from "fs";
+const dotenv = require("dotenv");
+dotenv.config();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, "..", "..", "public", "img-room");
+    const uploadDir =
+      process.env.NODE_ENV === "development"
+        ? path.join(__dirname, "..", "..", "public", "img-room")
+        : path.join(__dirname, "..", "..", "..", "public", "img-room");
     fs.mkdir(uploadDir, { recursive: true }, (err) => {
       if (err) {
         return cb(err);
