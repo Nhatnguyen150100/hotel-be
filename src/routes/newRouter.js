@@ -6,17 +6,20 @@ import newController from "../controllers/newController";
 import multer from "multer";
 import path, { join } from "path";
 import fs from "fs";
-const dotenv = require("dotenv");
-dotenv.config();
 
 const newRouter = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir =
-      process.env.NODE_ENV === "development"
-        ? path.join(__dirname, "..", "..", "public", "img-news")
-        : path.join(__dirname, "..", "..", "..", "public", "img-news");
+    // const uploadDir = path.join(__dirname, "..", "..", "public", "img-news");
+    const uploadDir = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "public",
+      "img-news"
+    );
     fs.mkdir(uploadDir, { recursive: true }, (err) => {
       if (err) {
         return cb(err);

@@ -5,16 +5,19 @@ import bannerController from "../controllers/bannerController";
 import multer from "multer";
 import path, { join } from "path";
 import fs from "fs";
-const dotenv = require("dotenv");
-dotenv.config();
 const bannerRouter = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir =
-      process.env.NODE_ENV === "development"
-        ? path.join(__dirname, "..", "..", "public", "banner")
-        : path.join(__dirname, "..", "..", "..", "public", "banner");
+    // const uploadDir = path.join(__dirname, "..", "..", "public", "banner");
+    const uploadDir = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "public",
+      "banner"
+    );
     fs.mkdir(uploadDir, { recursive: true }, (err) => {
       if (err) {
         return cb(err);

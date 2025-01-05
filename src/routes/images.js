@@ -4,8 +4,6 @@ import tokenMiddleware from "../middleware/tokenMiddleware";
 const imagesRouter = express.Router();
 import path from "path";
 import fs from "fs";
-const dotenv = require("dotenv");
-dotenv.config();
 
 imagesRouter.post("/delete-images", tokenMiddleware.verifyToken, (req, res) => {
   const imageUrls = req.body.urls;
@@ -17,18 +15,16 @@ imagesRouter.post("/delete-images", tokenMiddleware.verifyToken, (req, res) => {
     const pathParts = urlObj.pathname.split("/");
     const folderName = pathParts[1];
     const imageName = pathParts.pop();
-    const imagePath =
-      process.env.NODE_ENV === "development"
-        ? path.join(__dirname, "..", "..", "public", folderName, imageName)
-        : path.join(
-            __dirname,
-            "..",
-            "..",
-            "..",
-            "public",
-            folderName,
-            imageName
-          );
+    // const imagePath = path.join(__dirname, "..", "..", "public", folderName, imageName);
+    const imagePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "public",
+      folderName,
+      imageName
+    );
     return new Promise((resolve, reject) => {
       fs.stat(imagePath, (err) => {
         if (err) {
