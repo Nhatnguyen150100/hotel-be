@@ -4,7 +4,7 @@ import {
   BaseSuccessResponse,
 } from "../config/baseReponse";
 import db from "../models";
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 import onRemoveParams from "../utils/remove-params";
 import { DEFINE_STATUS_RESPONSE } from "../config/statusResponse";
 import logger from "../config/winston";
@@ -19,9 +19,15 @@ const roomService = {
           description,
           bedType,
           acreage,
-          normalDayPrice,
-          weekendPrice,
-          holidayPrice,
+          normalDayPriceStart,
+          normalDayPriceEnd,
+          summerPriceStart,
+          summerPriceEnd,
+          hotDayPriceStart,
+          hotDayPriceEnd,
+          titleHoliday,
+          holidayPriceStart,
+          holidayPriceEnd,
           listFacilitiesId,
           img_1,
           img_2,
@@ -48,9 +54,15 @@ const roomService = {
           description,
           bedType,
           acreage,
-          normalDayPrice,
-          weekendPrice,
-          holidayPrice,
+          normalDayPriceStart,
+          normalDayPriceEnd,
+          summerPriceStart,
+          summerPriceEnd,
+          hotDayPriceStart,
+          hotDayPriceEnd,
+          titleHoliday,
+          holidayPriceStart,
+          holidayPriceEnd,
           img_1,
           img_2,
           img_3,
@@ -210,7 +222,6 @@ const roomService = {
     });
   },
   getAllRooms: (data) => {
-    console.log("🚀 ~ data:", data)
     return new Promise(async (resolve, reject) => {
       try {
         const { page, limit, nameLike } = data;

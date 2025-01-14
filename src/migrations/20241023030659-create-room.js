@@ -21,14 +21,32 @@ module.exports = {
       acreage: {
         type: Sequelize.INTEGER,
       },
-      normalDayPrice: {
+      normalDayPriceStart: {
         type: Sequelize.INTEGER,
       },
-      weekendPrice: {
+      normalDayPriceEnd: {
         type: Sequelize.INTEGER,
       },
-      holidayPrice: {
+      summerPriceStart: {
         type: Sequelize.INTEGER,
+      },
+      summerPriceEnd: {
+        type: Sequelize.INTEGER,
+      },
+      hotDayPriceStart: {
+        type: Sequelize.INTEGER,
+      },
+      hotDayPriceEnd: {
+        type: Sequelize.INTEGER,
+      },
+      holidayPriceStart: {
+        type: Sequelize.INTEGER,
+      },
+      holidayPriceEnd: {
+        type: Sequelize.INTEGER,
+      },
+      titleHoliday: {
+        type: Sequelize.STRING,
       },
       img_1: {
         type: Sequelize.STRING,
