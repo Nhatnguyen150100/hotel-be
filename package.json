@@ -14,6 +14,7 @@
     "migrate": "cd src && sequelize-cli db:migrate",
     "migrate:undo": "cd src && sequelize-cli db:migrate:undo:all",
     "seed": "cd src && sequelize-cli db:seed:all",
+    "seed:user": "cd src && sequelize-cli db:seed --seed 20241004102838-User.js",
     "seed:undo": "cd src && sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.3",
+    "uuid": "^11.1.0",
     "winston": "^3.14.2",
     "winston-daily-rotate-file": "^5.0.0"
   },
